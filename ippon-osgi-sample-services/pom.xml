@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--
+        Licensed to the Apache Software Foundation (ASF) under one or more
+        contributor license agreements.  See the NOTICE file distributed with
+        this work for additional information regarding copyright ownership.
+        The ASF licenses this file to You under the Apache License, Version 2.0
+        (the "License"); you may not use this file except in compliance with
+        the License.  You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+    -->
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>fr.ippon.osgi.sample</groupId>
+        <artifactId>ippon-osgi-sample</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>fr.ippon.osgi.sample</groupId>
+    <artifactId>ippon-osgi-sample-services</artifactId>
+    <packaging>bundle</packaging>
+
+    <name>Apache Karaf :: Ippon OSGI Services</name>
+    <description>ippon-osgi-sample-services OSGi blueprint bundle project.</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.5.4</version>
+                <extensions>true</extensions>
+                <inherited>true</inherited>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                        <JPA-PersistenceUnits>ippon-pu</JPA-PersistenceUnits>
+                        <!-- Only needed for the persistence bundle containing the jpa Entities -->
+                        <Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
+                        <!-- Needed for runtime enhancement when using hibernate -->
+<!--                        <Dynamic-Import-Package>
+                            *, 
+                            org.hibernate.proxy, 
+                            javassist.util.proxy
+                        </Dynamic-Import-Package>-->
+                        <Export-Package>
+                            fr.ippon.osgi.sample.model*,
+                            fr.ippon.osgi.sample.services*
+                        </Export-Package>
+                        <Import-Package>
+                            org.hibernate;resolution:=optional,
+                            org.hibernate.annotations;resolution:=optional,
+                            org.hibernate.cfg;resolution:=optional,
+                            org.hibernate.proxy;resolution:=optional,
+                            org.hibernate.hql.ast;resolution:=optional,
+                            org.hibernate.type;resolution:=optional,
+                            org.hibernate.dialect;resolution:=optional,
+                            javassist.util.proxy;resolution:=optional,
+                            javax.persistence;resolution:=optional,
+                            javax.persistence.spi;resolution:=optional,
+                            org.h2;resolution:=optional,
+                            javax.transaction.xa;resolution:=optional,
+                            *
+                        </Import-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.6.Final</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>javax.transaction-api</artifactId>
+            <version>1.2</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.190</version>
+            <scope>provided</scope>
+        </dependency>
+        
+<!--        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4-1205-jdbc42</version>
+            <scope>provided</scope>
+        </dependency>-->
+ 
+    </dependencies>
+    
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+</project>

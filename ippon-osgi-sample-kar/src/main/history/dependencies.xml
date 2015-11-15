@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.3.0" name="ippon-osgi-sample-kar-1.0-SNAPSHOT">
+    <feature version="0.0.0">
+        <feature prerequisite="false" dependency="false">aries-annotation</feature>
+        <feature prerequisite="false" dependency="false">hibernate</feature>
+        <feature prerequisite="false" dependency="false">jdbc</feature>
+        <feature prerequisite="false" dependency="false">jndi</feature>
+        <feature prerequisite="false" dependency="false">jpa</feature>
+        <feature prerequisite="false" dependency="false">pax-jdbc-pool-dbcp2</feature>
+        <feature prerequisite="false" dependency="false">spring-orm</feature>
+        <feature prerequisite="false" dependency="false">transaction</feature>
+        <bundle>mvn:com.h2database/h2/1.4.190</bundle>
+        <bundle>mvn:fr.ippon.osgi.sample/ippon-osgi-sample-command/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:fr.ippon.osgi.sample/ippon-osgi-sample-ds/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:fr.ippon.osgi.sample/ippon-osgi-sample-services/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:org.eclipse.aether/aether-api/0.9.0.M2</bundle>
+        <bundle>mvn:org.eclipse.aether/aether-util/0.9.0.M2</bundle>
+    </feature>
+</features>
