@@ -4,6 +4,7 @@
 package fr.ippon.osgi.sample.command;
 
 import fr.ippon.osgi.sample.model.Employee;
+import fr.ippon.osgi.sample.model.Job;
 import fr.ippon.osgi.sample.services.EmployeeService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,13 +23,16 @@ import org.apache.karaf.shell.api.action.lifecycle.Service;
 @Service
 public class AddEmployee implements Action {
 
-    @Argument(index = 0, name = "lastname", description = "Nom", required = true, multiValued = false)
+    @Argument(index = 0, name = "job", description = "Job de l'employee (DEV, TECHLEAD, ARCHITECT, MANAGER, HR, CEO)", required = true, multiValued = false)
+    private String job;
+
+    @Argument(index = 1, name = "lastname", description = "Nom", required = true, multiValued = false)
     private String lastname;
 
-    @Argument(index = 1, name = "firstname", description = "Nom", required = true, multiValued = false)
+    @Argument(index = 2, name = "firstname", description = "Nom", required = true, multiValued = false)
     private String firstname;
 
-    @Argument(index = 2, name = "birthDate", description = "Date de naissance (au format YYYY-mm-dd)", required = true,
+    @Argument(index = 3, name = "birthDate", description = "Date de naissance (au format YYYY-mm-dd)", required = true,
               multiValued = false)
     private String birthDate;
 
@@ -40,6 +44,7 @@ public class AddEmployee implements Action {
         System.out.println("Ajoute le salarie : " + lastname + " " + firstname);
 
         Employee employee = new Employee();
+        employee.setJob(Job.valueOf(job));
         employee.setLastname(lastname);
         employee.setFirstname(firstname);
         employee.setBirthDate(parseDate(birthDate));

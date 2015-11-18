@@ -15,7 +15,7 @@ import org.apache.karaf.shell.api.action.lifecycle.Service;
  *
  * @author sfoubert
  */
-@Command(scope = "ippon", name = "remove-employee", description = "Supprime un employee de la societe")
+@Command(scope = "ippon", name = "remove-employee", description = "Supprime un salarie de la societe")
 @Service
 public class RemoveEmployee implements Action {
 

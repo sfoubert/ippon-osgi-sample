@@ -10,6 +10,7 @@
         <feature prerequisite="false" dependency="false">spring-orm</feature>
         <feature prerequisite="false" dependency="false">transaction</feature>
         <bundle>mvn:com.h2database/h2/1.4.190</bundle>
+        <bundle>mvn:commons-lang/commons-lang/2.6</bundle>
         <bundle>mvn:fr.ippon.osgi.sample/ippon-osgi-sample-command/1.0-SNAPSHOT</bundle>
         <bundle>mvn:fr.ippon.osgi.sample/ippon-osgi-sample-ds/1.0-SNAPSHOT</bundle>
         <bundle>mvn:fr.ippon.osgi.sample/ippon-osgi-sample-services/1.0-SNAPSHOT</bundle>

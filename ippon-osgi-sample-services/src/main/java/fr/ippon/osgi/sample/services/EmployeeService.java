@@ -11,6 +11,8 @@ public interface EmployeeService {
 
     List<Employee> getAllEmployees();
 
+    List<Employee> getAllEmployees(EmployeeCriteria criteria);
+
     Employee findEmployee(String employeeId);
 
     void addEmployee(Employee employee);

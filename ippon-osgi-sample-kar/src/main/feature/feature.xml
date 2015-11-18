@@ -37,6 +37,7 @@
         <feature version="4.0.3">aries-annotation</feature>
         
         <bundle start-level="70">mvn:com.h2database/h2/1.4.190</bundle>
+        <bundle start-level="70">mvn:commons-lang/commons-lang/2.6</bundle>
         
         <bundle start-level="80">mvn:fr.ippon.osgi.sample/ippon-osgi-sample-ds/1.0-SNAPSHOT</bundle>
         <bundle start-level="80">mvn:fr.ippon.osgi.sample/ippon-osgi-sample-services/1.0-SNAPSHOT</bundle>

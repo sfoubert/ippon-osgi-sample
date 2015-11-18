@@ -1,10 +1,15 @@
 package fr.ippon.osgi.sample.command;
 
 import fr.ippon.osgi.sample.model.Employee;
+import fr.ippon.osgi.sample.model.Job;
+import fr.ippon.osgi.sample.services.EmployeeCriteria;
 import fr.ippon.osgi.sample.services.EmployeeService;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import org.apache.commons.lang.StringUtils;
 import org.apache.karaf.shell.api.action.Action;
-import org.apache.karaf.shell.api.action.Argument;
 import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.Option;
 import org.apache.karaf.shell.api.action.lifecycle.Reference;
@@ -16,12 +21,9 @@ import org.apache.karaf.shell.support.table.ShellTable;
 @Service
 public class ListEmployees implements Action {
 
-    @Option(name = "-o", aliases = {"--option"}, description = "An option to the command", required = false,
+    @Option(name = "-j", aliases = {"--job"}, description = "Liste de jobs", required = false,
             multiValued = false)
-    private String option;
-
-    @Argument(name = "argument", description = "Argument to the command", required = false, multiValued = false)
-    private String argument;
+    private String jobsParam;
 
     @Reference
     private EmployeeService employeeService;
@@ -30,18 +32,40 @@ public class ListEmployees implements Action {
     public Object execute() throws Exception {
         System.out.println("Liste des employes :");
 
-        List<Employee> employees = employeeService.getAllEmployees();
+        EmployeeCriteria criteria = new EmployeeCriteria();
 
-        ShellTable table = new ShellTable();
-        table.column(new Col("Id"));
-        table.column(new Col("Nom"));
-        table.column(new Col("Prenom"));
-        table.column(new Col("Date de naissance"));
-        for (Employee employee : employees) {
-            table.addRow().addContent(employee.getEmployeeId(), employee.getLastname(), employee.getFirstname(),
-                    employee.getBirthDate());
+        if (StringUtils.isNotBlank(jobsParam)) {
+
+            Set<Job> jobSet = new HashSet<Job>();
+            List<String> jobList = Arrays.asList(jobsParam.split(","));
+            for (String strJob : jobList) {
+                Job job = Job.fromValue(strJob);
+                if (job != null) {
+                    jobSet.add(job);
+                } else {
+//                    logger.warn("Job " + strJob + " not found");
+                }
+            }
+            criteria.setJobs(jobSet);
         }
-        table.print(System.out, true);
+
+        List<Employee> employees = employeeService.getAllEmployees(criteria);
+
+        if (employees != null) {
+            ShellTable table = new ShellTable();
+            table.column(new Col("Id"));
+            table.column(new Col("Nom"));
+            table.column(new Col("Prenom"));
+            table.column(new Col("Date de naissance"));
+            table.column(new Col("Fonction"));
+            for (Employee employee : employees) {
+                table.addRow().addContent(employee.getEmployeeId(), employee.getLastname(), employee.getFirstname(),
+                        employee.getBirthDate(), employee.getJob().name());
+            }
+            table.print(System.out, true);
+        } else {
+            System.out.println("Aucun salarie trouve");
+        }
 
         return null;
     }
