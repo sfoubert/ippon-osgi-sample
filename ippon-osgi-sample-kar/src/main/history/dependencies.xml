@@ -7,10 +7,11 @@
         <feature prerequisite="false" dependency="false">jndi</feature>
         <feature prerequisite="false" dependency="false">jpa</feature>
         <feature prerequisite="false" dependency="false">pax-jdbc-pool-dbcp2</feature>
-        <feature prerequisite="false" dependency="false">spring-orm</feature>
         <feature prerequisite="false" dependency="false">transaction</feature>
         <bundle>mvn:com.h2database/h2/1.4.190</bundle>
+        <bundle>mvn:commons-io/commons-io/2.4</bundle>
         <bundle>mvn:commons-lang/commons-lang/2.6</bundle>
+        <bundle>mvn:commons-logging/commons-logging/1.2</bundle>
         <bundle>mvn:fr.ippon.osgi.sample/ippon-osgi-sample-command/1.0-SNAPSHOT</bundle>
         <bundle>mvn:fr.ippon.osgi.sample/ippon-osgi-sample-ds/1.0-SNAPSHOT</bundle>
         <bundle>mvn:fr.ippon.osgi.sample/ippon-osgi-sample-services/1.0-SNAPSHOT</bundle>

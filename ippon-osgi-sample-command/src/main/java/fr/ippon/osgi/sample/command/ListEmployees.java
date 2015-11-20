@@ -25,6 +25,14 @@ public class ListEmployees implements Action {
             multiValued = false)
     private String jobsParam;
 
+    @Option(name = "-n", aliases = {"--lastname"}, description = "Nom du salarie", required = false,
+            multiValued = false)
+    private String lastnameParam;
+
+    @Option(name = "-f", aliases = {"--firstname"}, description = "Prenom du salarie", required = false,
+            multiValued = false)
+    private String firstnameParam;
+
     @Reference
     private EmployeeService employeeService;
 
@@ -47,6 +55,14 @@ public class ListEmployees implements Action {
                 }
             }
             criteria.setJobs(jobSet);
+        }
+
+        if (StringUtils.isNotBlank(lastnameParam)) {
+            criteria.setLastnameLike(lastnameParam);
+        }
+
+        if (StringUtils.isNotBlank(firstnameParam)) {
+            criteria.setFirstnameLike(firstnameParam);
         }
 
         List<Employee> employees = employeeService.getAllEmployees(criteria);

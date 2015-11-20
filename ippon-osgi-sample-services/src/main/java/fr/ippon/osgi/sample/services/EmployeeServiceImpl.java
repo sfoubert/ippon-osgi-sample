@@ -1,13 +1,16 @@
 package fr.ippon.osgi.sample.services;
 
 import fr.ippon.osgi.sample.model.Employee;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -30,8 +33,24 @@ public class EmployeeServiceImpl implements EmployeeService {
         Root<Employee> employee = cq.from(Employee.class);
         cq.select(employee);
 
+        List<Predicate> predicates = new ArrayList<Predicate>();
+
         if (criteria.getJobs() != null && !criteria.getJobs().isEmpty()) {
-            cq.where(employee.get("job").in(criteria.getJobs()));
+            predicates.add(employee.get("job").in(criteria.getJobs()));
+        }
+
+        if (StringUtils.isNotBlank(criteria.getLastnameLike())) {
+            predicates.add(cb.like(cb.upper(employee.<String>get("lastname")), cb.upper(cb.literal("%" + criteria.
+                    getLastnameLike() + "%"))));
+        }
+
+        if (StringUtils.isNotBlank(criteria.getFirstnameLike())) {
+            predicates.add(cb.like(cb.upper(employee.<String>get("firstname")), cb.upper(cb.literal("%" + criteria.
+                    getFirstnameLike() + "%"))));
+        }
+
+        if (!predicates.isEmpty()) {
+            cq.where(cb.and(predicates.toArray(new Predicate[0])));
         }
 
         TypedQuery<Employee> query = entityManager.createQuery(cq);
