@@ -1,6 +1,3 @@
-/*
- * © 1996-2014 Sopra HR Software. All rights reserved
- */
 package fr.ippon.osgi.sample.model;
 
 /**
