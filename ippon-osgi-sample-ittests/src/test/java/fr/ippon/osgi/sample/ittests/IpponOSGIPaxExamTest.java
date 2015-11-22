@@ -24,6 +24,7 @@ import org.ops4j.pax.exam.spi.reactors.PerClass;
 import static org.ops4j.pax.tinybundles.core.TinyBundles.bundle;
 
 /**
+ * Tests unitaires des commandes Karaf avec PaxExam
  *
  * @author sfoubert
  */
@@ -33,9 +34,7 @@ public class IpponOSGIPaxExamTest extends KarafTestSupport {
 
     @ProbeBuilder
     public TestProbeBuilder probeConfiguration(TestProbeBuilder probe) {
-        probe.setHeader("Bundle-ManifestVersion", "2");
-        probe.setHeader(Constants.DYNAMICIMPORT_PACKAGE, "*,org.apache.felix.service.*;status=provisional");
-        return probe;
+        return probe.setHeader(Constants.DYNAMICIMPORT_PACKAGE, "*,org.apache.felix.service.*;status=provisional");
     }
 
     @Configuration
@@ -69,7 +68,7 @@ public class IpponOSGIPaxExamTest extends KarafTestSupport {
 
             features(maven().groupId("org.apache.karaf.features").artifactId("standard").type("xml").classifier(
             "features").versionAsInProject(), "aries-annotation"),
-//
+
             // Change ssh port
             editConfigurationFilePut("etc/org.apache.karaf.management.cfg", "rmiRegistryPort", RMI_REG_PORT),
             editConfigurationFilePut("etc/org.apache.karaf.management.cfg", "rmiServerPort", RMI_SERVER_PORT),
@@ -82,6 +81,7 @@ public class IpponOSGIPaxExamTest extends KarafTestSupport {
             mavenBundle().groupId("commons-logging").artifactId("commons-logging").version("1.2"),
             mavenBundle().groupId("commons-io").artifactId("commons-io").version("2.4"),
 
+            // install bundle datasource h2 for test
             streamBundle(bundle().add("OSGI-INF/blueprint/datasource-h2-test.xml",
                     new File("src/test/resources/OSGI-INF/blueprint/datasource-h2-test.xml").toURL())
                     .set(Constants.BUNDLE_NAME, "Apache Karaf :: Ippon OSGI Datasource Test")
@@ -96,18 +96,50 @@ public class IpponOSGIPaxExamTest extends KarafTestSupport {
         };
     }
 
-//    @Test
-//    public void testProvisioning() throws Exception {
-//        // Check that the features are installed
-//        assertTrue(featuresService.isInstalled(featuresService.getFeature("jdbc")));
-////        assertTrue(featuresService.isInstalled(featuresService.getFeature("hibernate")));
-//    }
+    @Test
+    public void testProvisioning() throws Exception {
+        // Check that the features are installed
+        assertFeatureInstalled("jdbc", "4.0.3");
+        assertFeatureInstalled("hibernate", "4.3.6.Final");
+        assertFeatureInstalled("jpa", "2.2.0");
+
+        // Check that the bundles are installed
+        assertBundleInstalled("ippon-osgi-sample-services");
+        assertBundleInstalled("ippon-osgi-sample-command");
+    }
 
     @Test
-    public void testListEmployeeCommand() {
+    public void testListEmployeesCommand() {
         Assert.assertNotNull(bundleContext);
 
         String result = executeCommand("ippon:list-employees");
+        System.out.println("result : " + result);
+        Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void testListEmployeesWithOptionsCommand() {
+        Assert.assertNotNull(bundleContext);
+
+        String result = executeCommand("ippon:list-employees -j ARCHITECT -n 'Employee 3'");
+        System.out.println("result : " + result);
+        Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void testAddEmployeeCommand() {
+        Assert.assertNotNull(bundleContext);
+
+        String result = executeCommand("ippon:add-employee DEV 'New Employee' 'New Employee' '01-01-1990'");
+        System.out.println("result : " + result);
+        Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void testRemoveEmployeeCommand() {
+        Assert.assertNotNull(bundleContext);
+
+        String result = executeCommand("ippon:remove-employee 2");
         System.out.println("result : " + result);
         Assert.assertNotNull(result);
     }

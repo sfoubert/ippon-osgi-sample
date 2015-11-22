@@ -19,13 +19,11 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns:jpa="http://aries.apache.org/xmlns/jpa/v2.0.0"
            xmlns:tx="http://aries.apache.org/xmlns/transactions/v1.2.0"
-           default-activation="eager">
+           default-activation="lazy">
 
-    <!--<tx:enable-annotations />-->
     <jpa:enable />
     
     <bean id="employeeBean" class="fr.ippon.osgi.sample.services.EmployeeServiceImpl">
-         <!--<jpa:context unitname="ippon-pu" property="entityManager" />-->
         <tx:transaction method="*"/>
     </bean>
 

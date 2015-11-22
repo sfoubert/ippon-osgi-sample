@@ -48,12 +48,6 @@
                         <JPA-PersistenceUnits>ippon-pu</JPA-PersistenceUnits>
                         <!-- Only needed for the persistence bundle containing the jpa Entities -->
                         <Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
-                        <!-- Needed for runtime enhancement when using hibernate -->
-<!--                        <Dynamic-Import-Package>
-                            *, 
-                            org.hibernate.proxy, 
-                            javassist.util.proxy
-                        </Dynamic-Import-Package>-->
                         <Export-Package>
                             fr.ippon.osgi.sample.model*,
                             fr.ippon.osgi.sample.services*

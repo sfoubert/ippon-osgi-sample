@@ -1,5 +1,6 @@
 package fr.ippon.osgi.sample.command;
 
+import fr.ippon.osgi.sample.command.completer.JobCompleter;
 import fr.ippon.osgi.sample.model.Employee;
 import fr.ippon.osgi.sample.model.Job;
 import fr.ippon.osgi.sample.services.EmployeeCriteria;
@@ -11,6 +12,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.karaf.shell.api.action.Action;
 import org.apache.karaf.shell.api.action.Command;
+import org.apache.karaf.shell.api.action.Completion;
 import org.apache.karaf.shell.api.action.Option;
 import org.apache.karaf.shell.api.action.lifecycle.Reference;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
@@ -23,6 +25,7 @@ public class ListEmployees implements Action {
 
     @Option(name = "-j", aliases = {"--job"}, description = "Liste de jobs", required = false,
             multiValued = false)
+    @Completion(JobCompleter.class)
     private String jobsParam;
 
     @Option(name = "-n", aliases = {"--lastname"}, description = "Nom du salarie", required = false,
